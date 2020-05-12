@@ -2,11 +2,14 @@ from PIL import Image
 from lfsr import LFSR
 from functools import reduce
 from feedback import feedback_poly, one_hot_encode
-
+import numpy as np
 
 lfsr = LFSR(8, 'gal', [0, 0, 1, 0, 1, 1, 0, 0])
 s = ""
 ints =  lfsr.get_ints()
+idx = ints.tolist().index(0)
+ints = ints[:idx]
+print(ints)
 value  = 0
 
 im = Image.open(r"image.png")
