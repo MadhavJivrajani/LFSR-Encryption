@@ -33,7 +33,7 @@ class LFSR:
         temp = np.vstack((diag, zeros))
         return np.column_stack((one_hot_encode(self.n)[::-1], temp))
 
-    def __generate_companion_fibonacci(self):
+      def __generate_companion_fibonacci(self):
         diag = np.diag(np.ones(self.n - 1, dtype=np.int32))
         zeros = np.zeros(self.n - 1, dtype=np.int32)
         temp = np.vstack((zeros, diag))
@@ -44,6 +44,7 @@ class LFSR:
             raise ValueError("Power of matrix needs to be non-negative")
         else:
             return matrix_power(state, k%(self.get_max_period()))
+        
 
     def get_max_period(self):
         return 2**self.n - 1
@@ -76,4 +77,4 @@ class LFSR:
         for k in range(self.get_max_period()):
             temp = self.__generate_next(self.companion, k)
             new_state = np.mod(np.dot(temp, self.seed))
-            p
+            print(" ".join([str(int(i)) for i in list(new_state)]))
