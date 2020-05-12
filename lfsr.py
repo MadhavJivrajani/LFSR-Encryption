@@ -24,26 +24,26 @@ class LFSR:
             self.companion = self.__generate_companion_fibonacci()
         else:
             self.companion = self.__generate_companion_galois()
-        
+
         self.seed = np.array(seed)
     
     def __generate_companion_galois(self):
         diag = np.diag(np.ones(self.n - 1))
         zeros = np.zeros(self.n - 1)
         temp = np.vstack((diag, zeros))
-        return np.mod(np.column_stack((np.array(one_hot_encode(self.n)[::-1]), temp)), 2)
+        return np.column_stack((one_hot_encode(self.n)[::-1], temp))
         
     def __generate_companion_fibonacci(self):
-        diag = np.diag(np.ones(self.n - 1))
-        zeros = np.zeros(self.n - 1)
-        temp = np.column_stack((zeros, diag))
-        return np.mod(np.vstack((temp, np.array(one_hot_encode(self.n)))), 2)
+        diag = np.diag(np.ones(self.n - 1, dtype=np.int32))
+        zeros = np.zeros(self.n - 1, dtype=np.int32)
+        temp = np.vstack((zeros, diag))
+        return np.column_stack((temp, one_hot_encode(self.n)))
         
     def __generate_next(self, state, k):
         if k < 0:
             raise ValueError("Power of matrix needs to be non-negative")
         else:
-            return matrix_power(state, k)
+            return matrix_power(state, k%(self.get_max_period()))
         
     def get_max_period(self):
         return 2**self.n - 1
@@ -52,7 +52,7 @@ class LFSR:
         ints = []
         for k in range(self.get_max_period()):
             temp = self.__generate_next(self.companion, k)
-            new_state = np.mod(np.dot(temp, self.seed), 2)
+            new_state = np.array(np.mod(np.dot(temp, self.seed), 2), dtype=np.int32)
             ints.append(int("".join([str(int(i)) for i in list(new_state)]), 2))
         
         return np.array(ints)
@@ -62,12 +62,12 @@ class LFSR:
         if self.type == 0:
             for k in range(self.get_max_period()):
                 temp = self.__generate_next(self.companion, k)
-                new_state = np.mod(np.dot(temp, self.seed), 2)
+                new_state = np.dot(temp, self.seed)
                 stream.append(new_state[-1])
         else:
             for k in range(self.get_max_period()):
                 temp = self.__generate_next(self.companion, k)
-                new_state = np.mod(np.dot(temp, self.seed), 2)
+                new_state = np.dot(temp, self.seed)
                 stream.append(new_state[0])
                 
         return np.array(stream)
@@ -75,8 +75,5 @@ class LFSR:
     def print_states(self):
         for k in range(self.get_max_period()):
             temp = self.__generate_next(self.companion, k)
-            new_state = np.mod(np.dot(temp, self.seed), 2)
+            new_state = np.mod(np.dot(temp, self.seed))
             print(" ".join([str(int(i)) for i in list(new_state)]))
-            
-lfsr = LFSR(5, 'gal', [0, 0, 1, 0, 1])
-print(lfsr.generate_output_stream())
