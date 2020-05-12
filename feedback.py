@@ -24,12 +24,23 @@ feedback_poly = {
     24: [23, 22, 17]
 }
 
+"""
 def one_hot_encode(n):
     coeffs = []
     coeffs.append(1)
     for i in range(1, n):
         if i in feedback_poly[n]:
             coeffs.append(1)
+        else:
+            coeffs.append(0)
+    return coeffs
+"""
+def one_hot_encode(n):
+    coeffs = []
+    coeffs.append(-1)
+    for i in range(1, n):
+        if i in feedback_poly[n]:
+            coeffs.append(-1)
         else:
             coeffs.append(0)
     return coeffs
