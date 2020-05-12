@@ -16,13 +16,10 @@ for i in range(width):
     for j in range(height):
         r, g, b = px[i, j]
         r = (r) ^ ints[value]
-        r %= 255
         value = (value+1) % (len(ints))
         g = (g) ^ ints[value]
-        g %= 255
         value = (value+1)%(len(ints))
         b = (b) ^ ints[value]
-        g %= 255
         value = (value+1) % (len(ints))
         px[i, j] = (r, g, b)
         
