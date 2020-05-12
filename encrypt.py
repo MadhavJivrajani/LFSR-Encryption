@@ -6,7 +6,7 @@ from feedback import feedback_poly, one_hot_encode
 
 lfsr = LFSR(15, 'fib', [1 for _ in range(15)])
 s = ""
-ints =  lfsr.generate(lfsr.get_max_period()-1)
+ints =  lfsr.get_ints()
 value  = 0
 im = Image.open(r"output.png")
 px = im.load()

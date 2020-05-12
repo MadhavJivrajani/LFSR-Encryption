@@ -53,22 +53,9 @@ class LFSR:
         for k in range(self.get_max_period()):
             temp = self.__generate_next(self.companion, k)
             new_state = np.array(np.mod(np.dot(temp, self.seed), 2), dtype=np.int32)
-            ints.append(int("".join([str(int(i)) for i in list(new_state)]), 2))
+            ints.append(int("".join([str(int(i)) for i in list(new_state)]), 2)%255)
         
         return np.array(ints)
-
-    def generate(self, k):
-        k = k % self.get_max_period()
-        stream = self.generate_output_stream()[:k]
-        rand_ints = []
-        num = 0
-        mod = 255
-        for bit in stream:
-            num = (num)*2 + bit
-            num = num % mod
-            rand_ints.append(num)
-
-        return np.array(rand_ints)
     
     def generate_output_stream(self):
         stream = []
@@ -76,7 +63,7 @@ class LFSR:
             for k in range(self.get_max_period()):
                 temp = self.__generate_next(self.companion, k)
                 new_state = np.mod(np.dot(temp, self.seed), 2)
-                stream.append(new_state[0])
+                stream.append(new_state[-1])
         else:
             for k in range(self.get_max_period()):
                 temp = self.__generate_next(self.companion, k)
