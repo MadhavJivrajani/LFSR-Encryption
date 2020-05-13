@@ -28,16 +28,18 @@ class LFSR:
         self.seed = np.array(seed)
     
     def __generate_companion_galois(self):
-        diag = np.diag(np.ones(self.n - 1))
-        zeros = np.zeros(self.n - 1)
+        diag = np.diag(np.ones(self.n - 1, dtype=np.int32))
+        zeros = np.zeros(self.n - 1, dtype=np.int32)
         temp = np.vstack((diag, zeros))
-        return np.column_stack((one_hot_encode(self.n)[::-1], temp))
-        
+        return np.mod(np.column_stack((np.array(
+            one_hot_encode(self.n)[::-1]), temp)), 2)
+
     def __generate_companion_fibonacci(self):
         diag = np.diag(np.ones(self.n - 1, dtype=np.int32))
         zeros = np.zeros(self.n - 1, dtype=np.int32)
-        temp = np.vstack((zeros, diag))
-        return np.column_stack((temp, one_hot_encode(self.n)))
+        temp = np.column_stack((zeros, diag))
+        return np.mod(np.vstack(
+            (temp, np.array(one_hot_encode(self.n)))), 2)
         
     def __generate_next(self, state, k):
         if k < 0:
