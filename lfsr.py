@@ -75,9 +75,7 @@ class LFSR:
         return np.array(stream)
             
     def print_states(self):
-        a = []
         for k in range(self.get_max_period()):
             temp = self.__generate_next(self.companion, k)
             new_state = np.mod(np.dot(temp, self.seed), 2)
-            a.append("".join([str(int(i)) for i in list(new_state)]))
-        print(len(set(a)))
+            print(" ".join([str(int(i)) for i in list(new_state)]))

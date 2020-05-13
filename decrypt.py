@@ -7,7 +7,7 @@ lfsr = LFSR(15, 'gal', [1 for _ in range(15)])
 s = ""
 ints =  lfsr.get_ints()
 value  = 0
-im = Image.open(r"image.png")
+im = Image.open(r"output.png")
 px = im.load()
 width, height = im.size
 print("Height :", height, " And width : ", width)
@@ -23,4 +23,4 @@ for i in range(width):
         px[i, j] = (r, g, b)
         
 im.show()
-im.save("output.png")
+im.save("decode.png")
