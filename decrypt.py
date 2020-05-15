@@ -5,7 +5,7 @@ from feedback import feedback_poly, one_hot_encode
 
 lfsr = LFSR(15, 'gal', [1 for _ in range(15)])
 s = ""
-ints =  lfsr.get_ints()
+ints =  lfsr.encrypt_decrypt_ints()
 value  = 0
 im = Image.open(r"output.png")
 px = im.load()

@@ -45,17 +45,26 @@ class LFSR:
         if k < 0:
             raise ValueError("Power of matrix needs to be non-negative")
         else:
-            return matrix_power(state, k%(self.get_max_period()))
+            return np.mod(matrix_power(state, k%(self.get_max_period())), 2)
         
     def get_max_period(self):
         return 2**self.n - 1
     
-    def get_ints(self):
+    def encrypt_decrypt_ints(self):
         ints = []
         for k in range(self.get_max_period()):
             temp = self.__generate_next(self.companion, k)
             new_state = np.array(np.mod(np.dot(temp, self.seed), 2), dtype=np.int32)
             ints.append(int("".join([str(int(i)) for i in list(new_state)]), 2)%255)
+        
+        return np.array(ints)
+
+    def get_ints(self):
+        ints = []
+        for k in range(self.get_max_period()):
+            temp = self.__generate_next(self.companion, k)
+            new_state = np.array(np.mod(np.dot(temp, self.seed), 2), dtype=np.int32)
+            ints.append(int("".join([str(int(i)) for i in list(new_state)]), 2))
         
         return np.array(ints)
     
