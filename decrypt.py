@@ -13,14 +13,16 @@ width, height = im.size
 print("Height :", height, " And width : ", width)
 for i in range(width):
     for j in range(height):
-        r, g, b = px[i, j]
+        r, g, b, temp = px[i, j]
         r = (r) ^ ints[value]
         value = (value+1) % (len(ints))
         g = (g) ^ ints[value]
         value = (value+1)%(len(ints))
         b = (b) ^ ints[value]
         value = (value+1) % (len(ints))
-        px[i, j] = (r, g, b)
+        temp = (temp) ^ ints[value]
+        value = (value+1) % (len(ints))
+        px[i, j] = (r, g, b, temp)
         
 im.show()
 im.save("decode.png")
